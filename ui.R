@@ -14,6 +14,8 @@ library(ggplot2)
 library(dplyr)
 
 fluidPage(theme = shinytheme("cerulean"),
+          radioButtons("test", "Test Objective", c("Superiority" = "sup", "Non-Inferiority" = "non-inf"), 
+                      selected = "Superiority"),
           numericInput(inputId = "p_control", 
                       label = "Response Rate for the Control Group (pC)", 
                       value = 0.5, min = 0, max = 1),
@@ -23,11 +25,9 @@ fluidPage(theme = shinytheme("cerulean"),
           numericInput(inputId = "block_number", 
                        label = "Number of Block(s) (k)", 
                        value = 2, min = 1, max = 20),
-          uiOutput("conf_int"),
-          numericInput(inputId = "type1_error", label = "Sample Size for each Trial", 
-                       value = 100, min = 2, max = 100000, step = 1),
-          uiOutput("block_number"),
-          numericInput(inputId = "simulation", label = "Number of Trials", 
-                       value = 100, min = 20, max = 10000, step = 1),
+          numericInput(inputId = "type1_error", label = withMathJax("Type I error,  $\\alpha$ (one-sided):"), 
+                       value = 0.05, min = 0.01, max = 0.20, step = 0.005),
+          numericInput(inputId = "power", label = withMathJax("Power,  $1 - \\beta$:"), 
+                       value = 0.9, min = 0.8, max = 1, step = 0.005),
           uiOutput("mcmc")
 )
